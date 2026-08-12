@@ -1,0 +1,7 @@
+# Windows / macOS が勝手に作るファイル
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# 画像の元データを置く場合はここに（サイトには公開されません）
+_originals/

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- ▼ SNSでシェアされたときに出る情報。data.js の SITE を変えたら、ここも合わせて直してください
+     （SNSのクローラーはJavaScriptを実行しないため、ここに直接書いた文字が使われます） -->
+<title>コピペで使える！画像生成プロンプト集</title>
+<meta name="description" content="画像生成AIでそのまま使える汎用プロンプトを公開しています。コピペして、言葉を差し替えるだけ。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="コピペで使える！画像生成プロンプト集">
+<meta property="og:description" content="画像生成AIでそのまま使える汎用プロンプトを公開しています。コピペして、言葉を差し替えるだけ。">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="header">
+  <a class="brand" href="#" id="brandLink">
+    <span class="brand-logo" id="brandLogo">🎨</span>
+    <span class="brand-name" id="brandName">PROMPT GALLERY</span>
+  </a>
+  <nav class="nav">
+    <a href="#" class="nav-link is-active" id="navGallery">ギャラリー</a>
+    <a href="#" class="nav-link" id="navAbout">このサイトについて</a>
+  </nav>
+</header>
+
+<main>
+  <section class="hero">
+    <h1 class="hero-title" id="heroTitle">そのまま使える、画像生成プロンプト集</h1>
+    <p class="hero-lead" id="heroLead"></p>
+  </section>
+
+  <section class="controls">
+    <div class="filters" id="filters"></div>
+    <div class="search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path>
+      </svg>
+      <input type="search" id="searchInput" placeholder="キーワードで探す" aria-label="プロンプトを検索">
+    </div>
+  </section>
+
+  <section class="gallery" id="gallery" aria-live="polite"></section>
+  <p class="empty" id="empty" hidden>該当するプロンプトがありませんでした。</p>
+</main>
+
+<footer class="footer">
+  <p class="footer-note">プロンプトはご自由にお使いください。生成物の利用は各AIサービスの規約に従ってください。</p>
+  <p class="footer-author" id="footerAuthor"></p>
+</footer>
+
+<!-- プロンプト詳細 -->
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" hidden>
+  <div class="modal-backdrop" data-close></div>
+  <div class="modal-panel">
+    <button class="modal-close" data-close aria-label="閉じる">×</button>
+
+    <div class="modal-visual" id="modalVisual"></div>
+
+    <div class="modal-body">
+      <span class="chip" id="modalCategory"></span>
+      <h2 class="modal-title" id="modalTitle"></h2>
+      <p class="modal-summary" id="modalSummary"></p>
+
+      <p class="modal-attach" id="modalAttach" hidden></p>
+
+      <div class="fill" id="fill" hidden>
+        <p class="fill-label">置き換える言葉を入れると、本文がすべて差し替わります</p>
+        <div class="fill-inputs" id="fillInputs"></div>
+      </div>
+
+      <div class="prompt-block">
+        <div class="prompt-head">
+          <span class="prompt-label">プロンプト</span>
+          <div class="prompt-actions">
+            <button class="btn btn-primary" id="copyBtn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <rect x="9" y="9" width="12" height="12" rx="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              </svg>
+              <span id="copyLabel">コピー</span>
+            </button>
+            <button class="btn" id="shareBtn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"></path>
+                <path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"></path>
+              </svg>
+              <span id="shareLabel">リンク</span>
+            </button>
+          </div>
+        </div>
+        <pre class="prompt-text" id="promptText"></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- このサイトについて -->
+<div class="modal" id="aboutModal" role="dialog" aria-modal="true" aria-labelledby="aboutTitle" hidden>
+  <div class="modal-backdrop" data-close></div>
+  <div class="modal-panel modal-panel--narrow">
+    <button class="modal-close" data-close aria-label="閉じる">×</button>
+    <div class="modal-body">
+      <h2 class="modal-title" id="aboutTitle">このサイトについて</h2>
+      <p class="modal-summary" id="aboutLead"></p>
+      <h3 class="about-h3">使い方</h3>
+      <ol class="about-list">
+        <li>気になるカードをクリックします。</li>
+        <li><strong>{{ }}</strong> の入力欄に、自分の題材（商品名やテーマ）を入れます。</li>
+        <li>「コピー」を押して、画像生成AIに貼り付けます。</li>
+        <li>添付が必要なプロンプトは、書かれている画像を一緒に添付してください。</li>
+      </ol>
+      <h3 class="about-h3">収録カテゴリ</h3>
+      <ul class="about-list" id="aboutCategories"></ul>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="data.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
