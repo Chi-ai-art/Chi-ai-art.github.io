@@ -111,6 +111,10 @@ main {
   margin: 0 0 14px;
 }
 
+/* data.js の description に入れた \n を改行として表示する */
+.hero-lead,
+#aboutLead { white-space: pre-line; }
+
 .hero-lead { margin: 0; max-width: 680px; color: var(--ink-soft); font-size: 14px; }
 
 /* 日本語の見出しが「集」だけ次の行に落ちるのを防ぐ。
