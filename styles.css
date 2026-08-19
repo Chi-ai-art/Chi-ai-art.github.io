@@ -212,8 +212,7 @@ main {
 
 .card-visual {
   position: relative;
-  /* 正方形。縦長・横長どちらの作例でも切り取られる量が少なくて済む */
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 4 / 3;
   display: grid;
   place-items: center;
   background:
