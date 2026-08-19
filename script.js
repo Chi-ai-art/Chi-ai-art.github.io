@@ -193,22 +193,31 @@
     }
 
     box.hidden = false;
+    // textarea にしているのは、長い文章をまるごと貼り付けたいプロンプトがあるため。
+    // 1行分の高さから始まり、入力量に合わせて自動で伸びる。
     inputs.innerHTML = names
       .map(
         (n, i) => `
         <div class="fill-row">
           <label for="fill-${i}">${escapeHtml(n)}</label>
-          <input id="fill-${i}" type="text" data-name="${escapeAttr(n)}" placeholder="${escapeAttr(n)}に入れる言葉" autocomplete="off">
+          <textarea id="fill-${i}" rows="1" data-name="${escapeAttr(n)}" placeholder="${escapeAttr(n)}を入れる" autocomplete="off"></textarea>
         </div>`
       )
       .join("");
 
-    inputs.querySelectorAll("input").forEach((input) => {
-      input.addEventListener("input", () => {
-        values[input.dataset.name] = input.value;
+    inputs.querySelectorAll("textarea").forEach((field) => {
+      field.addEventListener("input", () => {
+        values[field.dataset.name] = field.value;
+        autoGrow(field);
         renderPromptText();
       });
     });
+  }
+
+  // 入力量に合わせて高さを調整する
+  function autoGrow(field) {
+    field.style.height = "auto";
+    field.style.height = field.scrollHeight + "px";
   }
 
   // 表示用：未入力の {{◯◯}} はハイライトして残す
